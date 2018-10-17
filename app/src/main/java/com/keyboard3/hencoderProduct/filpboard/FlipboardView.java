@@ -69,29 +69,29 @@ public class FlipboardView extends View {
         int y = centerY - bitmapHeight / 2;
 
 
-        //绘制上半部分
+        //绘制上半部分 | 或者左半部分
         canvas.save();
         canvas.rotate(-degree, centerX, centerY);
         canvas.clipRect(0, 0, centerX, getHeight());
         canvas.rotate(degree, centerX, centerY);
 
-        //翻折画布
-        mCamera.save();
-        mCamera.rotateX(-turnoverDegreeLast);
-        canvas.translate(centerX, centerY);
-        mCamera.applyToCanvas(canvas);
-        canvas.translate(-centerX, -centerY);
-        mCamera.restore();
+        //结束，翻折画布
+        mCamera.save(); // 保存Camera的状态
+        mCamera.rotateX(-turnoverDegreeLast); // 旋转Camera的三维空间
+        canvas.translate(centerX, centerY); // 将绘制内容的中心点移动到原点(即旋转的轴心)
+        mCamera.applyToCanvas(canvas); // 把旋转投影到Canvas
+        canvas.translate(-centerX, -centerY); // 旋转之后把投影移动回去
+        mCamera.restore(); // 恢复Camera的状态
 
         canvas.drawBitmap(mBitmap, x, y, mPaint);
         canvas.restore();
 
-        //绘制右边部分
+        //绘制右边部分,并沿着中心点逆时针翻转
         canvas.save();
         canvas.rotate(-degree, centerX, centerY);
         canvas.clipRect(centerX, 0, getWidth(), getHeight());
 
-        //翻折画布
+        //起始，翻折画布
         mCamera.save();
         mCamera.rotateY(-turnoverDegreeFirst);
         canvas.translate(centerX, centerY);

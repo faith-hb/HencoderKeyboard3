@@ -60,7 +60,8 @@ public class FlipboardLayout extends RelativeLayout {
                 animator3.setInterpolator(new LinearInterpolator());
 
                 AnimatorSet animatorSet = new AnimatorSet();
-                // 两个动画依次执行
+                // 三个动画依次执行
+//                animatorSet.playSequentially(animator2, animator3);
                 animatorSet.playSequentially(animator1, animator2, animator3);
                 animatorSet.start();
             }
